@@ -14,29 +14,45 @@ namespace AILife_Lib
         public BotColor Color { get; set; }
         public Directions Directions { get; set; }
         public CellState State { get; set; }
+        public Genome Genome { get; set; }
     }
 
     public class Free : Cell
     {
-        protected Free()
+        public Free()
         {
             State = CellState.Free;
+        }
+
+        public override string ToString()
+        {
+            return " ";
         }
     }
 
     public class Organic : Cell
     {
-        protected Organic()
+        public Organic()
         {
             State = CellState.Organic;
+        }
+
+        public override string ToString()
+        {
+            return "#";
         }
     }
 
     public class FallOrganic : Organic
     {
-        protected FallOrganic()
+        public FallOrganic()
         {
             State = CellState.FallingOrganic;
+        }
+
+        public override string ToString()
+        {
+            return "#";
         }
     }
 }

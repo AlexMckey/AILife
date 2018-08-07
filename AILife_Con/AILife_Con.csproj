@@ -6,4 +6,8 @@
     <RootNamespace>AILife_Con</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AILife_Lib\AILife_Lib.csproj" />
+  </ItemGroup>
+
 </Project>

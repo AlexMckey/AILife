@@ -1,18 +1,42 @@
 ﻿namespace AILife_Lib
 {
-    public class Bot: Cell
+    public abstract class LivingCell : Cell
     {
-        protected Bot()
+
+    }
+
+    public class Bot: LivingCell
+    {
+        public static Cell Adam 
+        {
+            get
+            {
+                var res = new Bot();
+                return res;
+            }
+        }
+
+        public Bot()
         {
             State = CellState.Bot;
         }
+
+        public override string ToString()
+        {
+            return "*";
+        }
     }
 
-    public class MultiBot : Cell
+    public class MultiBot : LivingCell
     {
-        protected MultiBot()
+        public MultiBot()
         {
             State = CellState.MultiBot;
+        }
+
+        public override string ToString()
+        {
+            return "O";
         }
     }
 }
