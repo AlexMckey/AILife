@@ -19,9 +19,10 @@ namespace AILife_Lib
         //Buffer.BlockCopy(array, 0, tmp, 0, tmp.Length* sizeof(double));
         //List<double> list = new List<double>(tmp);
 
-        public List<Cell> NonFreeCells => cells.Cast<Cell>().Where(c => c.State != CellState.Free).ToList();
+        public List<Cell> NonFreeCells => cells.Cast<Cell>().Where(c => c.State != CellState.Free && c.State != CellState.Wall).ToList();
         public List<Cell> LivingCells => cells.Cast<Cell>().Where(c => c.State == CellState.Bot || c.State == CellState.MultiBot).ToList();
-
+        public List<Cell> OrganicCells => cells.Cast<Cell>().Where(c => c.State == CellState.Organic || c.State == CellState.FallingOrganic).ToList();
+        
         public int NextState()
         {
 
@@ -30,7 +31,7 @@ namespace AILife_Lib
 
         public void InitAdam()
         {
-            cells[heigth / 2, weight / 2] = Bot.Adam;
+            cells[heigth / 2, weight / 2] = Bot.Adam(this);
         }
 
         public World(int h, int w, double lightDeepOrigin = 0.5)
@@ -38,16 +39,19 @@ namespace AILife_Lib
             weight = w;
             heigth = h;
             lightBorder = (int) Math.Round(h * lightDeepOrigin);
-            cells = new Cell[heigth, weight];
+            cells = new Cell[heigth + 1, weight];
             for (var y = 0; y < heigth; y++)
                 for (var x = 0; x < weight; x++)
-                    cells[y, x] = new Free();
+                    cells[y, x] = Cell.Free;
+            for (var x = 0; x < weight; x++)
+                cells[heigth, x] = Cell.Wall;
+            Cell.World = this;
         }
 
         public override string ToString()
         {
             var sb = new StringBuilder((weight + 3) * (heigth + 2));
-            sb.AppendLine(new String('-',weight+2));
+            sb.AppendLine(new String('-', weight + 2));
             for (var y = 0; y < heigth; y++)
             {
                 sb.Append("|");
@@ -55,7 +59,7 @@ namespace AILife_Lib
                     sb.Append(cells[y, x].ToString());
                 sb.AppendLine("|");
             }
-            sb.AppendLine(new String('-', weight+2));
+            sb.AppendLine(new String('=', weight + 2));
             return sb.ToString();
         }
     }

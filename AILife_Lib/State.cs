@@ -6,6 +6,7 @@
         Organic,
         FallingOrganic,
         Bot,
-        MultiBot
+        MultiBot,
+        Wall
     }
 }

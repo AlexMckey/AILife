@@ -6,53 +6,70 @@ namespace AILife_Lib
 {
     public abstract class Cell
     {
-        public int CmdAddr { get; private set; }
-        public int X { get; set; }
-        public int Y { get; set; }
-        public int Health { get; set; }
-        public int Mineral { get; set; }
-        public BotColor Color { get; set; }
-        public Directions Directions { get; set; }
-        public CellState State { get; set; }
-        public Genome Genome { get; set; }
+        public static World World;
+
+        public int Mineral { get; internal set; }
+        public BotColor Color { get; internal set; }
+        public CellState State { get; internal set; }
+        public int X { get; internal set; }
+        public int Y { get; internal set; }
+
+        public virtual void Move() { }
+
+        internal static Cell freeCell;
+        public static Cell Free
+        {
+            get
+            {
+                if (freeCell == null) freeCell = new Free();
+                return freeCell;
+            }
+        }
+
+        internal static Cell wallCell;
+        public static Cell Wall
+        {
+            get
+            {
+                if (wallCell == null) wallCell = new Wall();
+                return wallCell;
+            }
+        }
     }
 
     public class Free : Cell
     {
-        public Free()
-        {
-            State = CellState.Free;
-        }
+        public Free() => State = CellState.Free;
 
-        public override string ToString()
-        {
-            return " ";
-        }
+        public override string ToString() => " ";
+    }
+
+    public class Wall : Cell
+    {
+        public Wall() => State = CellState.Wall;
+
+        public override string ToString() => "=";
     }
 
     public class Organic : Cell
     {
-        public Organic()
-        {
-            State = CellState.Organic;
-        }
+        public Organic(CellState state) => State = state;
 
-        public override string ToString()
-        {
-            return "#";
-        }
-    }
+        public override string ToString() => "#";
 
-    public class FallOrganic : Organic
-    {
-        public FallOrganic()
+        public override void Move()
         {
-            State = CellState.FallingOrganic;
-        }
-
-        public override string ToString()
-        {
-            return "#";
+            base.Move();
+            if (State == CellState.FallingOrganic)
+            {
+                if (World.cells[Y + 1, X].State == CellState.Free)
+                {
+                    World.cells[Y + 1, X] = this;
+                    World.cells[Y, X] = Cell.Free;
+                    Y++;
+                }
+                else World.cells[Y, X].State = CellState.Organic;
+            }
         }
     }
 }

@@ -13,6 +13,7 @@ namespace AILife_Lib
         Right,
         RightDown,
         Down,
-        LeftDown
+        LeftDown,
+        Stay
     }
 }
