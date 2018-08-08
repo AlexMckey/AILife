@@ -2,7 +2,7 @@
 {
     public enum CellState
     {
-        Free,
+        Empty,
         Organic,
         FallingOrganic,
         Bot,

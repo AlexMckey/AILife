@@ -19,7 +19,7 @@ namespace AILife_Lib
         //Buffer.BlockCopy(array, 0, tmp, 0, tmp.Length* sizeof(double));
         //List<double> list = new List<double>(tmp);
 
-        public List<Cell> NonFreeCells => cells.Cast<Cell>().Where(c => c.State != CellState.Free && c.State != CellState.Wall).ToList();
+        public List<Cell> NonFreeCells => cells.Cast<Cell>().Where(c => c.State != CellState.Empty && c.State != CellState.Wall).ToList();
         public List<Cell> LivingCells => cells.Cast<Cell>().Where(c => c.State == CellState.Bot || c.State == CellState.MultiBot).ToList();
         public List<Cell> OrganicCells => cells.Cast<Cell>().Where(c => c.State == CellState.Organic || c.State == CellState.FallingOrganic).ToList();
         

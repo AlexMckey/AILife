@@ -39,7 +39,7 @@ namespace AILife_Lib
 
     public class Free : Cell
     {
-        public Free() => State = CellState.Free;
+        public Free() => State = CellState.Empty;
 
         public override string ToString() => " ";
     }
@@ -62,7 +62,7 @@ namespace AILife_Lib
             base.Move();
             if (State == CellState.FallingOrganic)
             {
-                if (World.cells[Y + 1, X].State == CellState.Free)
+                if (World.cells[Y + 1, X].State == CellState.Empty)
                 {
                     World.cells[Y + 1, X] = this;
                     World.cells[Y, X] = Cell.Free;
